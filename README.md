@@ -17,13 +17,11 @@ You need a Floktu Client Id and Client Secret to access the API. If you don't ha
 
 ###Download Sample Client Code
 
-The best way to get started is using our example client code.
-
-* [Example PHP Client](https://github.com/Floktu/API)
+The best way to get started is using our example client code, which you can download from this page.
 
 The sample code shows you how to authenticate with Floktu using OAuth2, and make api calls to retrieve events and attendees.
 
-Example code in other languages can be made available on request.  
+Currently the sample code is only available in PHP - example code in other languages can be made available on request.  
 
 
 ##Workflow and authentication
