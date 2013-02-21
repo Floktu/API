@@ -1,0 +1,236 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Floktu API by Floktu</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">Floktu API</h1>
+        <p class="header">Documentation and sample code for the Floktu API.</p>
+
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/Floktu/API/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/Floktu/API/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/Floktu/API">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/Floktu">Floktu</a></p>
+
+
+      </header>
+      <section>
+        <h1>Floktu API</h1>
+
+<h2>Overview</h2>
+
+<p>The Floktu API allows other websites and applications to access a Floktu user's event and attendee data.</p>
+
+<p>This is an advanced tool which can only be used by a programmer - if you do not have access to a programmer, please contact <a href="http://support.floktu.com">Floktu Support</a> for assistance.</p>
+
+<h3>How it Works</h3>
+
+<p>You create an application which accesses the Floktu API on behalf of Floktu users. When your customer wants to connect to their Floktu account, you send them to the Floktu OAuth page. Once they have given you access to their Floktu account, you will be able to access that user's event and attendee data through the API.</p>
+
+<h2>Getting Started</h2>
+
+<h3>Register for the Floktu API</h3>
+
+<p>You need a Floktu Client Id and Client Secret to access the API. If you don't have these yet, you will need to <a href="http://support.floktu.com/">contact us</a> to request API access.</p>
+
+<h3>Download Sample Client Code</h3>
+
+<p>The best way to get started is using our example client code.</p>
+
+<ul>
+<li><a href="https://github.com/Floktu/API">Example PHP Client</a></li>
+</ul><p>The sample code shows you how to authenticate with Floktu using OAuth2, and make api calls to retrieve events and attendees.</p>
+
+<p>Example code in other languages can be made available on request.  </p>
+
+<h2>Workflow and authentication</h2>
+
+<h3>Basic workflow</h3>
+
+<ul>
+<li>You authenticate Floktu users for our API by sending them to our OAuth2 authentication page.</li>
+<li>Once the user has authenticated, we will send an <strong>authentication code</strong> back to you by POST to the redirect uri you specify.</li>
+<li>You make another POST request to exchange the <strong>authentication code</strong> for an <strong>access token</strong>.</li>
+<li>You store the <strong>access token</strong> (we don't expire access tokens, so you will only need to request this once per user - we don't support refresh tokens).</li>
+<li>To access our API, you make a POST or GET request to one of our API endpoints using the <strong>access token</strong>.</li>
+</ul><h3>OAuth2 Authentication</h3>
+
+<p>Useful reading:</p>
+
+<ul>
+<li>If you want it, this is the <a href="http://tools.ietf.org/html/draft-ietf-oauth-v2-31">OAuth2 v10 spec</a> (very long and boring).</li>
+<li>We recommend this <a href="http://aaronparecki.com/articles/2012/07/29/1/oauth2-simplified">simple explanation</a> of OAuth2. In particular, see the section on <a href="http://aaronparecki.com/articles/2012/07/29/1/oauth2-simplified#web-server-apps">Web Server Apps</a>
+</li>
+</ul><p>We've based our OAuth2 implementation on MailChimp's v1.3 api. Basically, we use OAuth2 <em>without</em> refresh tokens, and never expire access tokens. For security, all OAuth and API endpoints use SSL.</p>
+
+<p>These are our OAuth2 endpoints:</p>
+
+<ul>
+<li>
+<strong>authorize_uri:</strong> <a href="https://floktu.com/api/v1/authorize">https://floktu.com/api/v1/authorize</a>
+</li>
+<li>
+<strong>access_token_uri:</strong> <a href="https://floktu.com/api/v1/token">https://floktu.com/api/v1/token</a>
+</li>
+</ul><h2>API Endpoints</h2>
+
+<p>To access an API endpoint, you make a GET or POST request must pass the access token header as 'Authorization: Bearer'. You will receive a JSON formatted response.</p>
+
+<h3>Events</h3>
+
+<p><a href="https://floktu.com/api/v1/events">https://floktu.com/api/v1/events</a></p>
+
+<p>Provides a list of all events the user has access to.</p>
+
+<h4>JSON Schema</h4>
+
+<pre><code>{
+    "name": "Event",
+    "properties": {
+        "id": {
+            "type": "string",
+            "description": "Unique identifier for the event",
+            "required": true
+        },
+        "name": {
+            "type": "string",
+            "id": "Name of the event",
+            "required": true
+        }
+    }
+}
+</code></pre>
+
+<p><a name="endpoints_attendees"></a></p>
+
+<h3>Attendees</h3>
+
+<p><a href="https://floktu.com/api/v1/events/%7Bid%7D/attendees">https://floktu.com/api/v1/events/{id}/attendees</a></p>
+
+<p>Provides a list of all attendees for a given event. Replace {id} in the url with a numeric event id.</p>
+
+<p>In Floktu, each event can have many orders, and each order can have many attendees. This list gives you all attendees,
+and for each attendee it specifies the order and event it belongs to. You can group attendees by order to get all attendees for a single order.</p>
+
+<h4>JSON Schema</h4>
+
+<pre><code>{
+    "name": "Attendee",
+    "properties": {
+        "event_id": {
+            "type": "string",
+            "description": "Unique identifier for the event",
+            "required": true
+        },
+        "event": {
+            "type": "string",
+            "description": "Name of the event",
+            "required": true
+        },
+        "order_id": {
+            "type": "string",
+            "description": "Unique identifier for the order",
+            "required": true
+        },
+        "order_email": {
+            "type": "string",
+            "description": "Email address of the person who placed the order",
+            "required": true
+        },
+        "order_first_name": {
+            "type": "string",
+            "description": "First name of the person who placed the order",
+            "required": true
+        },
+        "order_last_name": {
+            "type": "string",
+            "description": "Last name of the person who placed the order",
+            "required": true
+        },
+        "voucher_code": {
+            "type": "string",
+            "description": "Discount voucher used for the order, if any",
+            "required": false
+        },
+        "ticket_group": {
+            "type": "string",
+            "description": "Name of the group the ticket belongs to",
+            "required": false
+        },
+        "ticket": {
+            "type": "string",
+            "description": "Name of the ticket the attendee has",
+            "required": true
+        },
+        "check_in_date": {
+            "type": "string",
+            "description": "Date the attendee checked in (if they have checked in)",
+            "required": false
+        },
+        "attendee_id": {
+            "type": "string",
+            "description": "Unique identifier for the attendee",
+            "required": true
+        },
+        "attendee_first_name": {
+            "type": "string",
+            "description": "First name of the attendee",
+            "required": false
+        },
+        "attendee_last_name": {
+            "type": "string",
+            "description": "Last name of the attendee",
+            "required": false
+        },
+        "attendee_company": {
+            "type": "string",
+            "description": "Name of the attendee's company",
+            "required": false
+        },
+        "attendee_data": {
+            "type": "array",
+            "description": "Additional attendee data captured during registration",
+            "required": false
+            "items": {
+                "type":"object",
+                "properties":{
+                    "question": {
+                        "type":"string",
+                        "description": "The question asked on the form.",
+                        "required":true
+                    },
+                    "answer": {
+                        "type":"string",
+                        "description": "The answer the attendee gave to the question.",
+                        "required":false
+                    }
+                }
+            }
+        },
+    }
+}
+</code></pre>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
+  </body>
+</html>
