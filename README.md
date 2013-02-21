@@ -1,6 +1,4 @@
-Floktu API
-
-###Contents
+# Floktu API
 
 ##Overview
 
@@ -27,7 +25,7 @@ The sample code shows you how to authenticate with Floktu using OAuth2, and make
 
 Example code in other languages can be made available on request.  
 
-- - -
+
 ##Workflow and authentication
 ###Basic workflow
 
@@ -52,7 +50,7 @@ These are our OAuth2 endpoints:
 * **authorize_uri:** https://floktu.com/api/v1/authorize
 * **access_token_uri:** https://floktu.com/api/v1/token
 
-- - -
+
 ##API Endpoints
 
 To access an API endpoint, you make a GET or POST request must pass the access token header as 'Authorization: Bearer'. You will receive a JSON formatted response.
