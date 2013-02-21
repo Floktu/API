@@ -15,6 +15,11 @@ class FL_OAuth2Client extends OAuth2Client
 		$client_secret = ''; // Your client secret
 		// END - CLIENT SETS THESE VARIABLES
 		
+		if (!$client_id || $client_secret)
+		{
+			die('Error: You must enter a client id and client secret in FL_Oauth2Client.php');
+		}
+		
 		$config = array('client_id' => $client_id, 'client_secret' => $client_secret,
 						'authorize_uri' => 'https://floktu.com/api/v1/authorize',
 						'access_token_uri' => 'https://floktu.com/api/v1/token',
