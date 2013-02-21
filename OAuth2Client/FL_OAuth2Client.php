@@ -15,7 +15,7 @@ class FL_OAuth2Client extends OAuth2Client
 		$client_secret = ''; // Your client secret
 		// END - CLIENT SETS THESE VARIABLES
 		
-		if (!$client_id || $client_secret)
+		if (!$client_id || !$client_secret)
 		{
 			die('Error: You must enter a client id and client secret in FL_Oauth2Client.php');
 		}
