@@ -12,7 +12,7 @@ if (isset($_SESSION['access_token']))
 {
 	// Get events from the Floktu API
 	curl_setopt_array($cha = curl_init(), array (
-			CURLOPT_URL => "https://floktu.com/api/v1/events",
+			CURLOPT_URL => FLOKTU_API_BASE_URI . "events",
 			CURLOPT_RETURNTRANSFER => 1,
 			CURLOPT_HTTPHEADER => array('Authorization: Bearer ' . $_SESSION['access_token']),
 			CURLOPT_SSL_VERIFYPEER => 0
@@ -31,20 +31,32 @@ if (isset($_SESSION['access_token']))
 ?>
 
 <h2>Event List</h2>
-<p>Choose an event to view its attendees.</p>
 
-<form method="get" action="./attendees.php">
+<?php 
+	if ($events)
+	{
+?>
+<p>Choose an event to view its attendees.</p>
+<form method="get" action="./orders.php">
 	<select name="eventid" style="width:350px;">
 	<?php
-	foreach($events as $event)
-	{
-		?><option value="<?php echo $event->{'id'};?>"><?php echo $event->{'name'}; ?></option><?php
-	}
+		foreach($events as $event)
+		{
+			?><option value="<?php echo $event->{'id'};?>"><?php echo $event->{'name'}; ?></option><?php
+		}
 	?>
 	</select>
 	<br/>
-	<input type="submit" value="View Attendees" class="btn btn-primary"/>
+	<input type="submit" value="View Orders" class="btn btn-primary"/>
 </form>
+
+<?php
+	}
+	else
+	{
+		?>You do not have any events.<?php
+	}
+?>
 
 <?php
 }

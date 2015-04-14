@@ -16,7 +16,7 @@
 		<div class="span2">&nbsp;</div>
 		<div class="span8 center">
 			<h1>Attend It!</h1>
-			<em>A Floktu API client example.</em>
+			<em>A Floktu API V2 client example.</em>
 			<br/>
 			
 			<?php

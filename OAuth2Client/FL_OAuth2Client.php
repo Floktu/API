@@ -1,5 +1,7 @@
 <?php
 
+define("FLOKTU_API_BASE_URI", "https://floktu.com/api/v2/");
+
 class FL_OAuth2Client extends OAuth2Client 
 {
 
@@ -21,13 +23,13 @@ class FL_OAuth2Client extends OAuth2Client
 		}
 		
 		$config = array('client_id' => $client_id, 'client_secret' => $client_secret,
-						'authorize_uri' => 'https://floktu.com/api/v1/authorize',
-						'access_token_uri' => 'https://floktu.com/api/v1/token',
+						'authorize_uri' => FLOKTU_API_BASE_URI . 'authorize',
+						'access_token_uri' => FLOKTU_API_BASE_URI . 'token',
 						'redirect_uri' => $host . 'finished.php',
 						'cookie_support' => false,
 						'file_upload' => false,
 						'token_as_header' => false,
-						'base_uri' => 'https://floktu.com/api/v1/'
+						'base_uri' => FLOKTU_API_BASE_URI
 						);
 		
 		parent::__construct($config);
